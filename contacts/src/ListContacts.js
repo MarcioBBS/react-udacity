@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Stateless Functional Component
 function ListContacts(props) {
     const contacts = props.contacts;
     return (
