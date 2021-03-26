@@ -33,6 +33,7 @@ const contacts = [
  }
 
 
+// Using functinal Compoments 
 // const App = () => {
 //   return (
 //     <div className="App">
