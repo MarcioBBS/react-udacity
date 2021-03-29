@@ -7,9 +7,31 @@ class ListContacts extends Component {
         onDeleteContact: PropTypes.func.isRequired
     }
 
+    state = {
+        query: ''
+    }
+
+    updateQuery = userQuery => {
+        this.setState(currentState => ({
+            query: userQuery.trim()
+        }))
+    }
+
     render() {
         return (
-            <ol className= 'contact-list'>
+
+            <div className= "list-contacts">
+                {JSON.stringify(this.state)}
+                <div className= "list-contacts-top">
+                    <input 
+                        className= "search-contacts"
+                        type= "text"
+                        placeholder= "Search Contacts"
+                        value = {this.state.query} /* Current Value */
+                        onChange = {event => {this.updateQuery(event.target.value)}}  /* Get value that is being typed */
+                    />
+                </div>
+                <ol className= 'contact-list'>
                     {this.props.contacts.map(contact => (
                         <li key= {contact.id} className= 'contact-list-item'>
                             <div className='contact-avatar' style= {{backgroundImage: `url(${contact.avatarURL})`}}></div>
@@ -23,6 +45,8 @@ class ListContacts extends Component {
                         </li>
                     ))}
                 </ol>
+            </div>
+            
     
         );
     }
