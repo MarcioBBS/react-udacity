@@ -13,6 +13,7 @@ class ListContacts extends Component {
         query: ''
     }
 
+    //  calls setState(), merging in the new state to update the component's internal state.
     updateQuery = userQuery => {
         this.setState(currentState => ({
             query: userQuery.trim()
@@ -20,21 +21,31 @@ class ListContacts extends Component {
     }
 
     render() {
+        const { query } = this.state;
+        const { contacts, onDeleteContact } = this.props;
+
+        const showingContacts = query === ''
+            ? contacts 
+            : contacts.filter(c => (c.name.toLowerCase().includes(query.toLocaleLowerCase())));
+
         return (
 
             <div className= "list-contacts">
-                {JSON.stringify(this.state)}
                 <div className= "list-contacts-top">
                     <input 
                         className= "search-contacts"
                         type= "text"
                         placeholder= "Search Contacts"
-                        value = {this.state.query} /* Current Value */
-                        onChange = {event => {this.updateQuery(event.target.value)}}  /* Get value that is being typed */
+                        /* Current Value - the displayed value will always be the value in the component's state*/
+                        value = {query} 
+                        /* Get value that is being typed 
+                           The onChange event listener invokes the updateQuery() function. 
+                        */
+                        onChange = {event => {this.updateQuery(event.target.value)}}  
                     />
                 </div>
                 <ol className= 'contact-list'>
-                    {this.props.contacts.map(contact => (
+                    { showingContacts.map(contact => (
                         <li key= {contact.id} className= 'contact-list-item'>
                             <div className='contact-avatar' style= {{backgroundImage: `url(${contact.avatarURL})`}}></div>
                             <div className= 'contact-details'>
@@ -42,7 +53,7 @@ class ListContacts extends Component {
                                 <p>{contact.handle}</p>
                             </div>
                             <button 
-                                onClick = {() => this.props.onDeleteContact(contact)}
+                                onClick = {() => onDeleteContact(contact)}
                                 className= 'contact-remove'>Remove</button>
                         </li>
                     ))}
