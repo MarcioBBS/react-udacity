@@ -22,6 +22,8 @@ import * as ContactAPI from './utils/ContactsAPI'
         return c.id !== contact.id
       })
     }));
+
+    ContactAPI.remove(contact);
   };
 
    render() {
