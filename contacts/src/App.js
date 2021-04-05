@@ -28,6 +28,12 @@ import CreateContact from './CreateContact';
     ContactAPI.remove(contact);
   };
 
+  onNavigate = () => {
+    this.setState(() => ({
+      screen: 'create'
+    }));
+  }
+
    render() {
      return (
        <div>
@@ -35,6 +41,7 @@ import CreateContact from './CreateContact';
           this.state.screen === 'list' && (
             <ListContacts 
             onDeleteContact = {this.removeContact}
+            onNavigate = {this.onNavigate}
             contacts= {this.state.contacts} /> )
          }
          
