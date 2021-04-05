@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import ListContacts from './ListContacts';
 import * as ContactAPI from './utils/ContactsAPI';
 import CreateContact from './CreateContact';
+import { Route } from 'react-router-dom';
 
  class App extends Component {
   state = {
-    contacts: [],
-    screen: 'list'
+    contacts: []
   };
 
   componentDidMount() {
@@ -28,27 +28,18 @@ import CreateContact from './CreateContact';
     ContactAPI.remove(contact);
   };
 
-  onNavigate = () => {
-    this.setState(() => ({
-      screen: 'create'
-    }));
-  }
-
    render() {
      return (
        <div>
-         { // Show list
-          this.state.screen === 'list' && (
-            <ListContacts 
+         {/* this Router Component uses the render propertie because we are passing props here */}
+         <Route exact path='/' render= {() => (
+           <ListContacts 
             onDeleteContact = {this.removeContact}
-            onNavigate = {this.onNavigate}
-            contacts= {this.state.contacts} /> )
-         }
-         
-         { // Show create contact
-          this.state.screen === 'create' && ( <CreateContact /> )
-         } 
-         
+            contacts= {this.state.contacts} 
+           />
+         )} />      
+         {/* this uses the component to render the CreateContact component*/}
+         <Route path='/create' component={ CreateContact } />          
        </div>
      )
    };
