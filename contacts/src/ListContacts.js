@@ -48,6 +48,9 @@ class ListContacts extends Component {
                         */
                         onChange = {event => {this.updateQuery(event.target.value)}}  
                     />
+                    {/* The Link component fully renders a proper anchor tag <a> 
+                        So, the <Link> component below will be the same as <a href="/create" class="add-contact"> Add Contact</a>
+                    */}
                     <Link
                         to='/create'                        
                         className='add-contact'
