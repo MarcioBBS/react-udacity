@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ListContacts from './ListContacts';
-import * as ContactAPI from './utils/ContactsAPI';
+import * as ContactsAPI from './utils/ContactsAPI';
 import CreateContact from './CreateContact';
 import { Route } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ import { Route } from 'react-router-dom';
   };
 
   componentDidMount() {
-    ContactAPI.getAll()
+    ContactsAPI.getAll()
       .then(contacts =>{
         this.setState(()=> ({
           contacts
@@ -25,8 +25,17 @@ import { Route } from 'react-router-dom';
       })
     }));
 
-    ContactAPI.remove(contact);
+    ContactsAPI.remove(contact);
   };
+
+  createContact = contact => {
+    ContactsAPI.create(contact)
+      .then(contact => {
+        this.setState(currentState => ({
+          contacts: currentState.contacts.concat([contact])
+        }))
+      })
+  }
 
    render() {
      return (
@@ -38,8 +47,22 @@ import { Route } from 'react-router-dom';
             contacts= {this.state.contacts} 
            />
          )} />      
+         
          {/* this uses the component to render the CreateContact component*/}
-         <Route path='/create' component={ CreateContact } />          
+         {/* <Route path='/create' component={ CreateContact } /> */}
+
+
+          <Route path= '/create' render= { ({ history }) => (
+            <CreateContact 
+              onCreateContact= {(contact) => {
+              this.createContact(contact); // Create the contact
+              history.push('/'); // Redirect/ Routing to the home view
+            }}
+            />
+          )}
+          
+          />
+
        </div>
      )
    };
